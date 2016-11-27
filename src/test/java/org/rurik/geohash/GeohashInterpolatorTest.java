@@ -1,7 +1,7 @@
 package org.rurik.geohash;
 
 /**
- * Created by User on 25.11.2016.
+ * Created by Yuri Rastegaev on 25.11.2016.
  */
 public class GeohashInterpolatorTest {
 
