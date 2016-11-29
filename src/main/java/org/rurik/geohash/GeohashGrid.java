@@ -28,6 +28,18 @@ public class GeohashGrid {
         calculateGrid();
     }
 
+    public int getPrecision() {
+        return precision;
+    }
+
+    public List<Double> getLatitudes() {
+        return latitudes;
+    }
+
+    public List<Double> getLongitudes() {
+        return longitudes;
+    }
+
     private void calculateGrid() {
         latitudes = calculateLatitudes(precision);
         longitudes = calculateLongitudes(precision);
@@ -47,17 +59,5 @@ public class GeohashGrid {
             coordinates.add(l + correction);
         }
         return coordinates;
-    }
-
-    public int getPrecision() {
-        return precision;
-    }
-
-    public List<Double> getLatitudes() {
-        return latitudes;
-    }
-
-    public List<Double> getLongitudes() {
-        return longitudes;
     }
 }
