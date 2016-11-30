@@ -22,9 +22,13 @@ public class GeohashGrid {
     private int precision;
     private List<Double> latitudes;
     private List<Double> longitudes;
+    private Double latitudeStep;
+    private Double longitudeStep;
 
     public GeohashGrid(int precision) {
         this.precision = precision;
+        latitudeStep = LATITUDE_PERIOD / pow(2, precision);
+        longitudeStep = LONGITUDE_PERIOD / pow(2, precision + 1);
         calculateGrid();
     }
 
@@ -40,17 +44,27 @@ public class GeohashGrid {
         return longitudes;
     }
 
+    public Double getLatitudeStep() {
+        return latitudeStep;
+    }
+
+    public Double getLongitudeStep() {
+        return longitudeStep;
+    }
+
     private void calculateGrid() {
-        latitudes = calculateLatitudes(precision);
-        longitudes = calculateLongitudes(precision);
+        latitudes = calculateLatitudes();
+        longitudes = calculateLongitudes();
     }
 
-    private List<Double> calculateLatitudes(int precision) {
-        return generateCoordinates(LATITUDE_PERIOD / pow(2, precision), LATITUDE_PERIOD, LATITUDE_CORRECTION);
+    //list is sorted by latitude: from 0 to LATITUDE_PERIOD
+    private List<Double> calculateLatitudes() {
+        return generateCoordinates(latitudeStep, LATITUDE_PERIOD, LATITUDE_CORRECTION);
     }
 
-    private List<Double> calculateLongitudes(int precision) {
-        return generateCoordinates(LONGITUDE_PERIOD / pow(2, precision + 1), LONGITUDE_PERIOD, LONGITUDE_CORRECTION);
+    //list is sorted by longitudes: from 0 to LONGITUDE_PERIOD
+    private List<Double> calculateLongitudes() {
+        return generateCoordinates(longitudeStep, LONGITUDE_PERIOD, LONGITUDE_CORRECTION);
     }
 
     private List<Double> generateCoordinates(double step, int period, int correction) {
