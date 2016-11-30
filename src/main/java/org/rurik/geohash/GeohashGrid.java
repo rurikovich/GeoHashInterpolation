@@ -27,8 +27,8 @@ public class GeohashGrid {
 
     public GeohashGrid(int precision) {
         this.precision = precision;
-        latitudeStep = LATITUDE_PERIOD / pow(2, precision);
-        longitudeStep = LONGITUDE_PERIOD / pow(2, precision + 1);
+        latitudeStep = calculateLatitudeStep(precision);
+        longitudeStep = calculateLongitudeStep(precision);
         calculateGrid();
     }
 
@@ -58,20 +58,28 @@ public class GeohashGrid {
     }
 
     //list is sorted by latitude: from 0 to LATITUDE_PERIOD
-    private List<Double> calculateLatitudes() {
+    List<Double> calculateLatitudes() {
         return generateCoordinates(latitudeStep, LATITUDE_PERIOD, LATITUDE_CORRECTION);
     }
 
     //list is sorted by longitudes: from 0 to LONGITUDE_PERIOD
-    private List<Double> calculateLongitudes() {
+    List<Double> calculateLongitudes() {
         return generateCoordinates(longitudeStep, LONGITUDE_PERIOD, LONGITUDE_CORRECTION);
     }
 
-    private List<Double> generateCoordinates(double step, int period, int correction) {
+    List<Double> generateCoordinates(double step, int period, int correction) {
         List<Double> coordinates = new ArrayList<>();
         for (double l = 0; l <= period; l += step) {
             coordinates.add(l + correction);
         }
         return coordinates;
+    }
+
+    Double calculateLongitudeStep(int precision) {
+        return LONGITUDE_PERIOD / pow(2, precision + 1);
+    }
+
+    Double calculateLatitudeStep(int precision) {
+        return LATITUDE_PERIOD / pow(2, precision);
     }
 }
