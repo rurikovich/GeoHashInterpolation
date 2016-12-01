@@ -9,12 +9,10 @@ import static java.lang.Math.*;
  * Created by Yuri Rastegaev on 27.11.2016.
  */
 public class GeohashGrid {
-
-    private final int LONGITUDE_PERIOD = 360;
-    private final int LONGITUDE_CORRECTION = -180;
-
-    private final int LATITUDE_PERIOD = 180;
-    private final int LATITUDE_CORRECTION = -90;
+    private final double LONGITUDE_PERIOD = 360;
+    private final double LONGITUDE_CORRECTION = -180;
+    private final double LATITUDE_PERIOD = 180;
+    private final double LATITUDE_CORRECTION = -90;
 
     /**
      * Geohash precision is a length of the encoded string: precision of the "bc3d" is 4.
@@ -27,9 +25,10 @@ public class GeohashGrid {
 
     public GeohashGrid(int precision) {
         this.precision = precision;
-        latitudeStep = calculateLatitudeStep(precision);
-        longitudeStep = calculateLongitudeStep(precision);
         calculateGrid();
+    }
+
+    public GeohashGrid() {
     }
 
     public int getPrecision() {
@@ -52,24 +51,26 @@ public class GeohashGrid {
         return longitudeStep;
     }
 
-    private void calculateGrid() {
-        latitudes = calculateLatitudes();
-        longitudes = calculateLongitudes();
+    public void calculateGrid() {
+        latitudeStep = calculateLatitudeStep(precision);
+        longitudeStep = calculateLongitudeStep(precision);
+        latitudes = calculateLatitudes(latitudeStep);
+        longitudes = calculateLongitudes(longitudeStep);
     }
 
     //list is sorted by latitude: from 0 to LATITUDE_PERIOD
-    List<Double> calculateLatitudes() {
+    List<Double> calculateLatitudes(Double latitudeStep) {
         return generateCoordinates(latitudeStep, LATITUDE_PERIOD, LATITUDE_CORRECTION);
     }
 
     //list is sorted by longitudes: from 0 to LONGITUDE_PERIOD
-    List<Double> calculateLongitudes() {
+    List<Double> calculateLongitudes(Double longitudeStep) {
         return generateCoordinates(longitudeStep, LONGITUDE_PERIOD, LONGITUDE_CORRECTION);
     }
 
-    List<Double> generateCoordinates(double step, int period, int correction) {
+    List<Double> generateCoordinates(Double step, Double period, Double correction) {
         List<Double> coordinates = new ArrayList<>();
-        for (double l = 0; l <= period; l += step) {
+        for (Double l = 0d; l <= period; l += step) {
             coordinates.add(l + correction);
         }
         return coordinates;
