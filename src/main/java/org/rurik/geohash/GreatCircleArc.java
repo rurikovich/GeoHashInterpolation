@@ -25,16 +25,24 @@ public class GreatCircleArc {
         longitude1 = geoPoint1.getLongitude();
         latitude2 = geoPoint2.getLatitude();
         longitude2 = geoPoint2.getLongitude();
-        preComputeConstants();
+        preComputeConstants(latitude1, longitude1, latitude2, longitude2);
     }
 
-    private void preComputeConstants() {
-        sin_diff_lon2_lon1 = sin(longitude2 - longitude1);
-        tan_lat1 = tan(latitude1);
-        tan_lat2 = tan(latitude2);
+    public GreatCircleArc(double latitude1, double longitude1, double latitude2, double longitude2) {
+        this.latitude1 = latitude1;
+        this.longitude1 = longitude1;
+        this.latitude2 = latitude2;
+        this.longitude2 = longitude2;
+        preComputeConstants(latitude1, longitude1, latitude2, longitude2);
+    }
 
-        double A = tan_lat2 * cos(longitude1) - tan_lat1 * cos(longitude2);
-        double B = tan_lat1 * sin(longitude2) - tan_lat2 * sin(longitude1);
+    private void preComputeConstants(double latitude1, double longitude1, double latitude2, double longitude2) {
+        sin_diff_lon2_lon1 = sin(this.longitude2 - this.longitude1);
+        tan_lat1 = tan(this.latitude1);
+        tan_lat2 = tan(this.latitude2);
+
+        double A = tan_lat2 * cos(this.longitude1) - tan_lat1 * cos(this.longitude2);
+        double B = tan_lat1 * sin(this.longitude2) - tan_lat2 * sin(this.longitude1);
 
         sqrt_sum_A2_B2 = sqrt(A * A + B * B);
         A_div_sqrt_sum_A2_B2 = A / sqrt_sum_A2_B2;
