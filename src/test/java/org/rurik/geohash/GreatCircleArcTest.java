@@ -26,7 +26,7 @@ public class GreatCircleArcTest {
         GreatCircleArc arc = new GreatCircleArc(latStart, longitude, latEnd, longitude);
         for (Double lat = latStart; lat <= latEnd; lat += STEP) {
             Double lon = arc.computeLongitude(lat);
-            assertEquals(longitude, lon);
+            assertEquals(longitude, lon, DOUBLE_DELTA);
         }
     }
 

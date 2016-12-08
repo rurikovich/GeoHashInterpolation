@@ -44,7 +44,8 @@ public class GreatCircleArc {
     public Double computeLongitude(Double latitude) {
         double latitudeRad = getRadian(latitude);
         double C = tan(latitudeRad) * sin_diff_lon2_lon1;
-        return getAngle(-acos(A_div_sqrt_sum_A2_B2) + asin(C / sqrt_sum_A2_B2));
+        double radian = signum(A) * asin(C / sqrt_sum_A2_B2) - signum(A) * signum(B) * acos(A_div_sqrt_sum_A2_B2);
+        return getAngle(radian);
     }
 
     private void preComputeConstants(double latitudeInRad1, double longitudeInRad1, double latitudeInRad2, double longitudeInRad2) {
