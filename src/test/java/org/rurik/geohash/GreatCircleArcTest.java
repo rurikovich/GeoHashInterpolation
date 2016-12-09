@@ -10,21 +10,16 @@ import static org.junit.Assert.assertEquals;
 public class GreatCircleArcTest {
     public static final double DOUBLE_DELTA = 0.00000000001;
 
-    private static final Double POINT_LONGITUDE = 45d;
-    private static final Double POINT_LATITUDE = 45d;
-    private static final Double DELTA = 1d;
-
-    private static final Integer STEPS_NUMBER = 1;
-    private static final Double STEP = DELTA / STEPS_NUMBER;
 
     @Test
-    public void constantLongitudeArc() throws Exception {
-        Double longitude = POINT_LONGITUDE;
-        Double latStart = POINT_LATITUDE;
-        Double latEnd = POINT_LATITUDE + DELTA;
+    public void constantLongitudeArcTest() throws Exception {
+        Double longitude = 40.0083001d;
+        Double latStart = -89d;
+        Double latEnd = longitude + 170d;
+        int step = 10000;
 
         GreatCircleArc arc = new GreatCircleArc(latStart, longitude, latEnd, longitude);
-        for (Double lat = latStart; lat <= latEnd; lat += STEP) {
+        for (Double lat = latStart; lat <= latEnd; lat += step) {
             Double lon = arc.computeLongitude(lat);
             assertEquals(longitude, lon, DOUBLE_DELTA);
         }
@@ -42,6 +37,5 @@ public class GreatCircleArcTest {
         for (double lon = lonStart; lon <= lonEnd; lon += step) {
             assertEquals(latitude, arc.computeLatitude(lon), DOUBLE_DELTA);
         }
-
     }
 }
