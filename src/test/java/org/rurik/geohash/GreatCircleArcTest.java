@@ -27,6 +27,21 @@ public class GreatCircleArcTest {
 
 
     @Test
+    public void ordinaryArcTest() throws Exception {
+        Double lon1 = 0d;
+        Double lat1 = 7d;
+
+        Double lon2 = 89d;
+        Double lat2 = 89d;
+        GreatCircleArc arc = new GreatCircleArc(lon1, lat1, lon2, lat2);
+        for (double lon = lon1; lon < lon2; lon += 1) {
+            Double lat = arc.computeLatitude(lon);
+            Double computedLongitude = arc.computeLongitude(lat);
+            assertEquals(lon, computedLongitude, DOUBLE_DELTA);
+        }
+    }
+
+    @Test
     public void equatorArcTest() throws Exception {
         Double latitude = 0d;
         Double lonStart = -45d;
