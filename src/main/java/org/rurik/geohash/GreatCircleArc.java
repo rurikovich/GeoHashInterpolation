@@ -57,7 +57,7 @@ public class GreatCircleArc {
         B = tan_lat1 * sin(longitudeInRad2) - tan_lat2 * sin(longitudeInRad1);
 
         sqrt_sum_A2_B2 = sqrt(A * A + B * B);
-        A_div_sqrt_sum_A2_B2 = A / sqrt_sum_A2_B2;
+        A_div_sqrt_sum_A2_B2 = abs(A) / sqrt_sum_A2_B2;
 
     }
 
