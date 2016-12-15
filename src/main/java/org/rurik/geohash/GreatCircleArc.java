@@ -1,5 +1,8 @@
 package org.rurik.geohash;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.lang.Math.*;
 
 /**
@@ -35,14 +38,30 @@ public class GreatCircleArc {
     }
 
     public Double computeLatitude(Double longitude) {
-        double longitudeRad = getRadian(longitude);
+        return computeLatitudeForRadians(getRadian(longitude));
+    }
+
+    public Double computeLongitude(Double latitude) {
+        return computeLongitudeForRadians(getRadian(latitude));
+    }
+
+    public List<GeoPoint> generateArcPoints(int count) {
+        ArrayList<GeoPoint> geoPoints = new ArrayList<>();
+        double step = (longitudeInRad2 - longitudeInRad1) / count;
+        for (double lonInRad = longitudeInRad1; lonInRad < longitudeInRad2; lonInRad += step) {
+            Double latInAngles = computeLatitudeForRadians(lonInRad);
+            geoPoints.add(new GeoPoint(latInAngles, getAngle(lonInRad)));
+        }
+        return geoPoints;
+    }
+
+    private Double computeLatitudeForRadians(double longitudeRad) {
         double exp1 = tan_lat1 * sin(longitudeInRad2 - longitudeRad) / sin_diff_lon2_lon1;
         double exp2 = tan_lat2 * sin(longitudeRad - longitudeInRad1) / sin_diff_lon2_lon1;
         return getAngle(atan(exp1 + exp2));
     }
 
-    public Double computeLongitude(Double latitude) {
-        double latitudeRad = getRadian(latitude);
+    private Double computeLongitudeForRadians(double latitudeRad) {
         double C = tan(latitudeRad) * sin_diff_lon2_lon1;
         double radian = signum(A) * asin(C / sqrt_sum_A2_B2) - signum(A) * signum(B) * acos(A_div_sqrt_sum_A2_B2);
         return getAngle(radian);
